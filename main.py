@@ -1,28 +1,32 @@
 from sympy import *
 
+# X represents the horizontal axis of the tank, Z the length
 x, z = symbols('x z')
 
-init_printing(use_unicode=True)
-
+# The height of the water at the midpoint of the tank, where the sensor is
 water_height = float(input("Water height in inches: "))
 
+# Coefficents for tank shape
 a = 0.1745
 b = 1.1439
 
+# Constants
+water_angle_with_ground_radians = 0.029296875
+tank_length_inches = 192
+tank_width_inches = 30
+
+# Approx of tank shape
 tank_shape = a * b ** x
 
-theta = 0.029296875
+# Water height above floor of tank 
+midpoint_water_height_at_given_z = water_height - tan(water_angle_with_ground_radians) * z
 
-tank_length = 192
+x_bound = min(log(water_height / a) / log(b), tank_width_inches)
 
-water_slope = -tan(theta) + water_height
+z_bound = min(water_height / tan(water_angle_with_ground_radians), tank_length_inches)
 
-x_bound = log(water_height/a)/log(b)
-
-z_bound = min(water_height / tan(theta), tank_length)
-
-area = 2 * integrate(water_slope - tank_shape, (x, 0, x_bound))
+area = 2 * integrate(midpoint_water_height_at_given_z - tank_shape, (x, 0, x_bound))
 
 volume = integrate(area, (z, 0, z_bound))
 
-print("Volume:", volume)
+print("Volume:", str(volume / 231) + " gallons")
