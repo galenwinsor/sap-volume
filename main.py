@@ -12,7 +12,7 @@ b = 1.1439
 
 # Constants
 water_angle_with_ground_radians = 0.029296875
-tank_length_inches = 192
+tank_length_inches = 144
 tank_width_inches = 30
 
 # Approx of tank shape
